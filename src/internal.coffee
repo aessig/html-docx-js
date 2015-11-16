@@ -6,7 +6,10 @@ _ = merge: require 'lodash.merge'
 module.exports =
   generateDocument: (zip) ->
     buffer = zip.generate(type: 'arraybuffer')
-    if global.Blob
+
+    if global.Blob && global.Buffer
+      new Buffer new Uint8Array(buffer)
+    else if global.Blob
       new Blob [buffer],
         type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     else if global.Buffer
